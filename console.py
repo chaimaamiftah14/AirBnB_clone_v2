@@ -128,36 +128,41 @@ class HBNBCommand(cmd.Cmd):
         class_name = args_list[0]
         
         if class_name not in HBNBCommand.classes:
-            print("** class doesn't exist **")
+            print("** class not found **")
             return
+        
+        # Create an instance of the class
+        new_instance = HBNBCommand.classes[class_name]()
+
+        # Initialize attribute dictionary
+        attr_dict = {}
         
         # Check for initialization parameters
         if len(args_list) > 1:
-            # Create a dictionary to hold the attribute-value pairs
-            attr_dict = {}
             for param in args_list[1:]:
                 if "=" in param:
                     key, val = param.split("=", 1)
                     # Remove leading/trailing quotes and replace underscores with spaces
-                    if val[0] == '"' and val[-1] == '"':
+                    if val.startswith('"') and val.endswith('"'):
                         val = val[1:-1].replace('_', ' ').replace('\"', '\"')
                     # Convert to float or int if applicable
                     try:
                         if '.' in val:
                             val = float(val)
-                        else:
+                        else: 
                             val = int(val)
                     except ValueError:
-                        pass  # keep the string if it cannot be converted
+                        # keep the string if it cannot be converted
+                        pass
                     attr_dict[key] = val
 
-        # Create an instance and set attributes
-        new_instance = HBNBCommand.classes[class_name]()
+        # Set attributes if they exist in the instance
         for key, val in attr_dict.items():
             if hasattr(new_instance, key):
                 setattr(new_instance, key, val)
 
         new_instance.save()  # Save the new instance to storage
+        print(new_instance.id) 
 
     def help_create(self):
         """ Help information for the create method """
