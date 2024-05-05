@@ -79,7 +79,7 @@ class Place(BaseModel, Base):
             viewonly=False,
             backref='place_amenities'
         )
-        else:
+    else:
         @property
         def amenities(self):
             """Returns the amenities of this Place"""
