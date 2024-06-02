@@ -1,0 +1,1 @@
+sqlalchemy==1.4.22  # Specify the version you are using
